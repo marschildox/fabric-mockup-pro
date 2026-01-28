@@ -141,7 +141,8 @@ const TRANSLATIONS = {
     high: "Alta",
     medium: "Mitjana",
     low: "Baixa",
-    production: "Producción"
+    production: "Producción",
+    longSleeve: "Camiseta Manga Larga"
   },
   en: {
     title: "Mockup Studio",
@@ -207,7 +208,8 @@ const TRANSLATIONS = {
     high: "High",
     medium: "Medium",
     low: "Low",
-    production: "Production"
+    production: "Production",
+    longSleeve: "Long Sleeve T-Shirt"
   }
 }
 
@@ -295,6 +297,19 @@ const PRODUCT_CATALOG: ProductDefinition[] = [
       { id: "espalda", nameKey: "espalda", widthCm: 32, heightCm: 45, side: "back" },
       { id: "manga-izq", nameKey: "mangaIzq", widthCm: 8, heightCm: 45, side: "front" },
       { id: "manga-der", nameKey: "mangaDer", widthCm: 8, heightCm: 45, side: "front" },
+    ]
+  },
+  {
+    type: "longSleeve",
+    nameKey: "longSleeve",
+    frontImg: "/longtee-front.png",
+    backImg: "/longtee-back.png",
+    visualWidth: 400,
+    areas: [
+      { id: "pecho", nameKey: "pecho", widthCm: 32, heightCm: 45, side: "front" },
+      { id: "espalda", nameKey: "espalda", widthCm: 32, heightCm: 45, side: "back" },
+      { id: "manga-izq", nameKey: "mangaIzq", widthCm: 10, heightCm: 35, side: "front" },
+      { id: "manga-der", nameKey: "mangaDer", widthCm: 10, heightCm: 35, side: "front" },
     ]
   },
   {
