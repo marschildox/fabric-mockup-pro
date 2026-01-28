@@ -276,8 +276,8 @@ const PRODUCT_CATALOG: ProductDefinition[] = [
   {
     type: "tshirt",
     nameKey: "tshirt",
-    frontImg: "/tshirt-front.png",
-    backImg: "/tshirt-back.png",
+    frontImg: "/tee-front.png",
+    backImg: "/tee-back.png",
     visualWidth: 400,
     areas: [
       { id: "pecho", nameKey: "pecho", widthCm: 32, heightCm: 45, side: "front" },
