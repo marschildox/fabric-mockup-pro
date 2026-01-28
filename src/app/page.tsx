@@ -274,8 +274,8 @@ const PRODUCT_CATALOG: ProductDefinition[] = [
   {
     type: "tshirt",
     nameKey: "tshirt",
-    frontImg: "/tee-front.png",
-    backImg: "/tee-back.png",
+    frontImg: "/tshirt-front.png",
+    backImg: "/tshirt-back.png",
     visualWidth: 400,
     areas: [
       { id: "pecho", nameKey: "pecho", widthCm: 32, heightCm: 45, side: "front" },
@@ -1360,8 +1360,8 @@ export default function MockupGenerator() {
                   <button
                     onClick={() => setActiveProductId(p.id)}
                     className={`h-9 px-5 flex items-center gap-3 rounded-l-xl text-[11px] font-black uppercase tracking-widest transition-all border-y border-l ${isActive
-                        ? 'bg-slate-900 text-white border-slate-900 shadow-xl translate-y-[-1px] z-10'
-                        : 'bg-white text-slate-400 border-slate-200 hover:border-slate-300 hover:bg-slate-50/50'
+                      ? 'bg-slate-900 text-white border-slate-900 shadow-xl translate-y-[-1px] z-10'
+                      : 'bg-white text-slate-400 border-slate-200 hover:border-slate-300 hover:bg-slate-50/50'
                       }`}
                   >
                     <Shirt className={`w-3.5 h-3.5 ${isActive ? 'text-blue-400' : 'text-slate-300'}`} />
