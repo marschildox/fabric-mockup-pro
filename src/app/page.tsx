@@ -878,8 +878,8 @@ export default function MockupGenerator() {
 
         for (const design of sideDesigns.filter(d => d.areaId === mainArea.id)) {
           const dImg = await loadImg(design.src)
-          const scaleX = areaW / (mainArea.widthCm * CM_TO_PX)
-          const scaleY = areaH / (mainArea.heightCm * CM_TO_PX)
+          const scaleX = areaW / (mainArea.widthCm * getPixelRatio())
+          const scaleY = areaH / (mainArea.heightCm * getPixelRatio())
           ctx.save()
           ctx.translate(areaX + design.x * scaleX + (design.width * scaleX) / 2, areaY + design.y * scaleY + (design.height * scaleY) / 2)
           ctx.rotate((design.rotation * Math.PI) / 180)
@@ -903,8 +903,8 @@ export default function MockupGenerator() {
 
           for (const d of sDesign) {
             const dImg = await loadImg(d.src)
-            const scX = sW / (sArea.widthCm * CM_TO_PX)
-            const scY = sH / (sArea.heightCm * CM_TO_PX)
+            const scX = sW / (sArea.widthCm * getPixelRatio())
+            const scY = sH / (sArea.heightCm * getPixelRatio())
             ctx.save()
             ctx.translate(sX + d.x * scX + (d.width * scX) / 2, sY + d.y * scY + (d.height * scY) / 2)
             ctx.rotate((d.rotation * Math.PI) / 180)
@@ -1085,7 +1085,7 @@ export default function MockupGenerator() {
           }
 
           for (const d of sideDesigns.filter(d => d.areaId === mArea.id)) {
-            const sc = aW / (mArea.widthCm * CM_TO_PX)
+            const sc = aW / (mArea.widthCm * (pDef.pixelRatio || DEFAULT_PIXEL_RATIO))
 
             // Usamos rotación por canvas para máxima precisión
             const rotated = await rotateImageOnCanvas(d.src, d.rotation)
@@ -1125,7 +1125,7 @@ export default function MockupGenerator() {
             const slY = (yB + w * 0.22) + (syO * (w / 100))
 
             for (const d of sDesign) {
-              const sc = slW / (sArea.widthCm * CM_TO_PX)
+              const sc = slW / (sArea.widthCm * (pDef.pixelRatio || DEFAULT_PIXEL_RATIO))
               const rotated = await rotateImageOnCanvas(d.src, d.rotation)
               const rImg = await loadImg(rotated.dataUrl)
               const rRatio = rImg.height / rImg.width
@@ -1544,7 +1544,7 @@ export default function MockupGenerator() {
                           <Layout className="w-3 h-3" /> {t(area.nameKey)} {area.widthCm}x{area.heightCm}
                         </div>
                         {activeProduct.designs.filter(d => d.areaId === area.id).map(design => (
-                          <div key={design.id} className={`absolute cursor-move transition-all group/design ${selectedDesignId === design.id ? 'ring-2 ring-blue-500 ring-offset-4 ring-offset-slate-900/10 shadow-[0_0_30px_rgba(59,130,246,0.3)] z-30' : 'z-20 hover:ring-2 hover:ring-blue-500/50 hover:ring-offset-2'}`} style={{ left: `${(design.x / (area.widthCm * CM_TO_PX)) * 100}%`, top: `${(design.y / (area.heightCm * CM_TO_PX)) * 100}%`, width: `${(design.width / (area.widthCm * CM_TO_PX)) * 100}%`, height: `${(design.height / (area.heightCm * CM_TO_PX)) * 100}%`, transform: `rotate(${design.rotation}deg)` }} onMouseDown={e => handleMouseDown(e, design.id)}>
+                          <div key={design.id} className={`absolute cursor-move transition-all group/design ${selectedDesignId === design.id ? 'ring-2 ring-blue-500 ring-offset-4 ring-offset-slate-900/10 shadow-[0_0_30px_rgba(59,130,246,0.3)] z-30' : 'z-20 hover:ring-2 hover:ring-blue-500/50 hover:ring-offset-2'}`} style={{ left: `${(design.x / (area.widthCm * getPixelRatio())) * 100}%`, top: `${(design.y / (area.heightCm * getPixelRatio())) * 100}%`, width: `${(design.width / (area.widthCm * getPixelRatio())) * 100}%`, height: `${(design.height / (area.heightCm * getPixelRatio())) * 100}%`, transform: `rotate(${design.rotation}deg)` }} onMouseDown={e => handleMouseDown(e, design.id)}>
                             {showGuides && selectedDesignId === design.id && <div className="absolute left-1/2 top-0 bottom-0 w-px border-l border-blue-500/50 pointer-events-none shadow-[0_0_8px_rgba(59,130,246,0.5)]" />}
                             <img src={design.src} className="w-full h-full object-contain pointer-events-none drop-shadow-2xl" />
                           </div>
@@ -1565,7 +1565,7 @@ export default function MockupGenerator() {
                           {t(area.nameKey)}
                         </div>
                         {activeProduct.designs.filter(d => d.areaId === area.id).map(design => (
-                          <div key={design.id} className="absolute cursor-move" style={{ left: `${(design.x / (area.widthCm * CM_TO_PX)) * 100}%`, top: `${(design.y / (area.heightCm * CM_TO_PX)) * 100}%`, width: `${(design.width / (area.widthCm * CM_TO_PX)) * 100}%`, height: `${(design.height / (area.heightCm * CM_TO_PX)) * 100}%`, transform: `rotate(${design.rotation}deg)` }} onMouseDown={e => handleMouseDown(e, design.id)}>
+                          <div key={design.id} className="absolute cursor-move" style={{ left: `${(design.x / (area.widthCm * getPixelRatio())) * 100}%`, top: `${(design.y / (area.heightCm * getPixelRatio())) * 100}%`, width: `${(design.width / (area.widthCm * getPixelRatio())) * 100}%`, height: `${(design.height / (area.heightCm * getPixelRatio())) * 100}%`, transform: `rotate(${design.rotation}deg)` }} onMouseDown={e => handleMouseDown(e, design.id)}>
                             <img src={design.src} className="w-full h-full object-contain pointer-events-none drop-shadow-xl" />
                           </div>
                         ))}
