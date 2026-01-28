@@ -270,6 +270,7 @@ interface ProductDefinition {
   backImg: string
   visualWidth: number
   areas: PrintArea[]
+  pixelRatio?: number
 }
 
 const PRODUCT_CATALOG: ProductDefinition[] = [
@@ -297,7 +298,8 @@ const PRODUCT_CATALOG: ProductDefinition[] = [
       { id: "espalda", nameKey: "espalda", widthCm: 32, heightCm: 45, side: "back" },
       { id: "manga-izq", nameKey: "mangaIzq", widthCm: 8, heightCm: 45, side: "front" },
       { id: "manga-der", nameKey: "mangaDer", widthCm: 8, heightCm: 45, side: "front" },
-    ]
+    ],
+    pixelRatio: 7.5
   },
   {
     type: "longSleeve",
@@ -321,7 +323,8 @@ const PRODUCT_CATALOG: ProductDefinition[] = [
     areas: [
       { id: "frente-tote", nameKey: "areaFrontal", widthCm: 30, heightCm: 35, side: "front" },
       { id: "trasera-tote", nameKey: "areaTrasera", widthCm: 30, heightCm: 35, side: "back" },
-    ]
+    ],
+    pixelRatio: 9
   },
   {
     type: "baseballTshirt",
@@ -337,6 +340,8 @@ const PRODUCT_CATALOG: ProductDefinition[] = [
     ]
   }
 ]
+
+const DEFAULT_PIXEL_RATIO = 8
 
 interface PrintColor {
   id: string
@@ -433,7 +438,9 @@ export default function MockupGenerator() {
   const mockupRef = useRef<HTMLDivElement>(null)
   const areaFileInputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({})
 
-  const CM_TO_PX = 8
+  const getPixelRatio = () => {
+    return productDef.pixelRatio || DEFAULT_PIXEL_RATIO
+  }
 
   useEffect(() => {
     const loadData = async () => {
@@ -556,11 +563,12 @@ export default function MockupGenerator() {
 
   const getAreaDimensions = (areaId: PrintPosition) => {
     const area = productDef.areas.find(a => a.id === areaId)
+    const ratio = getPixelRatio()
     return {
       widthCm: area?.widthCm || 32,
       heightCm: area?.heightCm || 45,
-      widthPx: (area?.widthCm || 32) * CM_TO_PX,
-      heightPx: (area?.heightCm || 45) * CM_TO_PX,
+      widthPx: (area?.widthCm || 32) * ratio,
+      heightPx: (area?.heightCm || 45) * ratio,
     }
   }
 
@@ -583,10 +591,10 @@ export default function MockupGenerator() {
           const newDesign: Design = {
             id: Date.now().toString(),
             src: event.target?.result as string,
-            x: (areaDims.widthPx - finalWidthCm * CM_TO_PX) / 2,
+            x: (areaDims.widthPx - finalWidthCm * getPixelRatio()) / 2,
             y: 0,
-            width: finalWidthCm * CM_TO_PX,
-            height: initialHeightCm * CM_TO_PX,
+            width: finalWidthCm * getPixelRatio(),
+            height: initialHeightCm * getPixelRatio(),
             widthCm: finalWidthCm,
             heightCm: initialHeightCm,
             rotation: 0,
@@ -613,9 +621,9 @@ export default function MockupGenerator() {
         const updated = { ...d, ...updates }
         if (updates.widthCm !== undefined && updates.heightCm === undefined) {
           const aspectRatio = d.heightCm / d.widthCm
-          updated.width = updates.widthCm * CM_TO_PX
+          updated.width = updates.widthCm * getPixelRatio()
           updated.heightCm = updates.widthCm * aspectRatio
-          updated.height = updated.heightCm * CM_TO_PX
+          updated.height = updated.heightCm * getPixelRatio()
         }
         if (updates.x !== undefined) {
           updated.x = Math.max(0, Math.min(updates.x, areaDims.widthPx - updated.width))
